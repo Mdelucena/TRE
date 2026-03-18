@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - LogiTrack Pro</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="page">
+    <div th:replace="~{fragments/nav :: nav}"></div>
+
+    <main>
+        <section class="panel filter-panel">
+            <h2>Filtro de Quilometragem</h2>
+            <form method="get" th:action="@{/dashboard}" class="inline-form">
+                <label for="vehicleId">Veiculo</label>
+                <select id="vehicleId" name="vehicleId">
+                    <option value="">Toda a frota</option>
+                    <option th:each="v : ${vehicles}"
+                            th:value="${v.id}"
+                            th:text="${v.plate + ' - ' + v.model}"
+                            th:selected="${selectedVehicleId == v.id}"></option>
+                </select>
+                <button type="submit">Aplicar</button>
+            </form>
+        </section>
+
+        <section class="grid cards-2">
+            <article class="panel metric">
+                <h3>Total KM percorrido</h3>
+                <strong th:text="${#numbers.formatDecimal(dashboard.totalMileage, 1, 2)} + ' km'">0 km</strong>
+            </article>
+            <article class="panel metric">
+                <h3>Projecao financeira (mes atual)</h3>
+                <strong th:text="'R$ ' + ${#numbers.formatDecimal(dashboard.monthlyMaintenanceProjection, 1, 2)}">R$ 0,00</strong>
+            </article>
+        </section>
+
+        <section class="grid cards-2">
+            <article class="panel">
+                <h3>Volume por categoria</h3>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Quantidade de viagens</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${dashboard.volumeByCategory}">
+                        <td th:text="${item.category}"></td>
+                        <td th:text="${item.totalTrips}"></td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(dashboard.volumeByCategory)}">
+                        <td colspan="2">Sem viagens registradas.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <article class="panel">
+                <h3>Ranking de utilizacao</h3>
+                <p><b>Veiculo:</b> <span th:text="${dashboard.topVehicleUsage.plate + ' - ' + dashboard.topVehicleUsage.model}"></span></p>
+                <p><b>KM acumulado:</b> <span th:text="${#numbers.formatDecimal(dashboard.topVehicleUsage.totalMileage, 1, 2)} + ' km'"></span></p>
+            </article>
+        </section>
+
+        <section class="panel">
+            <h3>Proximas 5 manutencoes</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th>Veiculo</th>
+                    <th>Servico</th>
+                    <th>Status</th>
+                    <th>Inicio</th>
+                    <th>Fim previsto</th>
+                    <th>Custo estimado</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="m : ${dashboard.nextMaintenances}">
+                    <td th:text="${m.plate + ' - ' + m.model}"></td>
+                    <td th:text="${m.serviceType}"></td>
+                    <td th:text="${m.status}"></td>
+                    <td th:text="${m.startDate}"></td>
+                    <td th:text="${m.expectedEndDate}"></td>
+                    <td th:text="'R$ ' + ${#numbers.formatDecimal(m.estimatedCost, 1, 2)}"></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(dashboard.nextMaintenances)}">
+                    <td colspan="6">Sem manutencoes futuras.</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</div>
+</body>
+</html>

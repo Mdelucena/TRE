@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${maintenance.id == null} ? 'Nova manutencao - LogiTrack Pro' : 'Editar manutencao - LogiTrack Pro'">Formulario</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="page">
+    <div th:replace="~{fragments/nav :: nav}"></div>
+
+    <main>
+        <section class="panel form-panel">
+            <h2 th:text="${maintenance.id == null} ? 'Nova manutencao' : 'Editar manutencao'"></h2>
+
+            <form th:object="${maintenance}"
+                  th:action="${maintenance.id == null} ? @{/manutencoes} : @{'/manutencoes/' + ${maintenance.id}}"
+                  method="post"
+                  class="stack-form">
+
+                <div class="field">
+                    <label for="vehicle">Veiculo</label>
+                    <select id="vehicle" th:field="*{vehicle}" required>
+                        <option value="">Selecione</option>
+                        <option th:each="v : ${vehicles}"
+                                th:value="${v.id}"
+                                th:text="${v.plate + ' - ' + v.model}"></option>
+                    </select>
+                    <small class="error" th:if="${#fields.hasErrors('vehicle')}" th:errors="*{vehicle}"></small>
+                </div>
+
+                <div class="grid cards-2 compact-grid">
+                    <div class="field">
+                        <label for="startDate">Data de inicio</label>
+                        <input id="startDate" type="date" th:field="*{startDate}" required>
+                        <small class="error" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></small>
+                    </div>
+
+                    <div class="field">
+                        <label for="expectedEndDate">Data de finalizacao prevista</label>
+                        <input id="expectedEndDate" type="date" th:field="*{expectedEndDate}" required>
+                        <small class="error" th:if="${#fields.hasErrors('expectedEndDate')}" th:errors="*{expectedEndDate}"></small>
+                    </div>
+                </div>
+
+                <div class="grid cards-2 compact-grid">
+                    <div class="field">
+                        <label for="serviceType">Tipo de servico</label>
+                        <select id="serviceType" th:field="*{serviceType}" required>
+                            <option value="">Selecione</option>
+                            <option th:each="type : ${serviceTypeList}" th:value="${type}" th:text="${type}"></option>
+                        </select>
+                        <small class="error" th:if="${#fields.hasErrors('serviceType')}" th:errors="*{serviceType}"></small>
+                    </div>
+
+                    <div class="field">
+                        <label for="status">Status</label>
+                        <select id="status" th:field="*{status}" required>
+                            <option value="">Selecione</option>
+                            <option th:each="s : ${statusList}" th:value="${s}" th:text="${s}"></option>
+                        </select>
+                        <small class="error" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></small>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="estimatedCost">Custo estimado</label>
+                    <input id="estimatedCost" type="number" min="0.01" step="0.01" th:field="*{estimatedCost}" required>
+                    <small class="error" th:if="${#fields.hasErrors('estimatedCost')}" th:errors="*{estimatedCost}"></small>
+                </div>
+
+                <div class="actions-row">
+                    <a class="btn btn-muted" th:href="@{/manutencoes}">Cancelar</a>
+                    <button class="btn" type="submit">Salvar</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</div>
+</body>
+</html>

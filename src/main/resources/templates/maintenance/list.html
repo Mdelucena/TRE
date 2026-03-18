@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manutencoes - LogiTrack Pro</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="page">
+    <div th:replace="~{fragments/nav :: nav}"></div>
+
+    <main>
+        <section class="panel">
+            <div class="actions-row">
+                <h2>Agendamentos de Manutencao</h2>
+                <a class="btn" th:href="@{/manutencoes/novo}">Nova manutencao</a>
+            </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Veiculo</th>
+                    <th>Inicio</th>
+                    <th>Fim previsto</th>
+                    <th>Servico</th>
+                    <th>Status</th>
+                    <th>Custo estimado</th>
+                    <th>Acoes</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="m : ${maintenances}">
+                    <td th:text="${m.vehicle.plate + ' - ' + m.vehicle.model}"></td>
+                    <td th:text="${m.startDate}"></td>
+                    <td th:text="${m.expectedEndDate}"></td>
+                    <td th:text="${m.serviceType}"></td>
+                    <td th:text="${m.status}"></td>
+                    <td th:text="'R$ ' + ${#numbers.formatDecimal(m.estimatedCost, 1, 2)}"></td>
+                    <td class="actions-inline">
+                        <a th:href="@{'/manutencoes/' + ${m.id} + '/editar'}">Editar</a>
+                        <form th:action="@{'/manutencoes/' + ${m.id} + '/excluir'}" method="post">
+                            <button type="submit" class="btn-danger">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(maintenances)}">
+                    <td colspan="7">Nenhuma manutencao cadastrada.</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</div>
+</body>
+</html>

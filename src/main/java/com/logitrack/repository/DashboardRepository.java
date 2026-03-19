@@ -12,6 +12,33 @@ import java.util.List;
 public interface DashboardRepository extends JpaRepository<Trip, Long> {
 
     @Query(value = """
+            SELECT COUNT(DISTINCT v.id)
+            FROM vehicles v
+            """, nativeQuery = true)
+    Long countTotalVehicles();
+
+    @Query(value = """
+            SELECT COUNT(m.id)
+            FROM maintenance_schedules m
+            WHERE m.status = 'PENDENTE'
+            """, nativeQuery = true)
+    Long countScheduledMaintenances();
+
+    @Query(value = """
+            SELECT COUNT(m.id)
+            FROM maintenance_schedules m
+            WHERE m.status = 'EM_REALIZACAO'
+            """, nativeQuery = true)
+    Long countInProgressMaintenances();
+
+    @Query(value = """
+            SELECT COUNT(m.id)
+            FROM maintenance_schedules m
+            WHERE m.status = 'CONCLUIDA'
+            """, nativeQuery = true)
+    Long countCompletedMaintenances();
+
+    @Query(value = """
             SELECT COALESCE(SUM(t.mileage), 0)
             FROM trips t
             WHERE (:vehicleId IS NULL OR t.vehicle_id = :vehicleId)
@@ -19,12 +46,11 @@ public interface DashboardRepository extends JpaRepository<Trip, Long> {
     BigDecimal totalMileage(@Param("vehicleId") Long vehicleId);
 
     @Query(value = """
-            SELECT v.category, COUNT(t.id)
-            FROM trips t
-            JOIN vehicles v ON v.id = t.vehicle_id
+            SELECT v.category, COUNT(v.id)
+            FROM vehicles v
             GROUP BY v.category
             """, nativeQuery = true)
-    List<Object[]> tripVolumeByCategory();
+    List<Object[]> vehiclesByCategory();
 
     @Query(value = """
             SELECT m.id,
@@ -37,8 +63,7 @@ public interface DashboardRepository extends JpaRepository<Trip, Long> {
                    m.estimated_cost
             FROM maintenance_schedules m
             JOIN vehicles v ON v.id = m.vehicle_id
-            WHERE m.start_date >= CURRENT_DATE
-            ORDER BY m.start_date ASC
+            ORDER BY m.start_date DESC
             LIMIT 5
             """, nativeQuery = true)
     List<Object[]> nextFiveMaintenance();

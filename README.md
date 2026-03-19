@@ -1,102 +1,157 @@
 # LogiTrack Pro
 
-Aplicacao web desenvolvida como MVP para o desafio tecnico da LogAp/TRE, com foco em gestao de manutencao de frota e consolidacao de metricas operacionais.
+MVP web para o desafio LogAp/TRE, com foco em gestao de manutencao de frota e dashboard analitico com metricas SQL.
 
-## Objetivo
+## Objetivo do desafio
 
-Implementar a Opcao 2 do desafio: modulo de agendamento de manutencao com CRUD completo, integrado a um dashboard com indicadores de negocio.
+Implementar a Opcao 2:
 
-## Funcionalidades
+- Modulo de Agendamento de Manutencao (CRUD).
+- Dashboard de analise com consultas SQL para indicadores de negocio.
 
-- Cadastro, listagem, edicao e exclusao de manutencoes.
-- Dashboard com 5 metricas obrigatorias, calculadas por SQL nativo:
-  - Total de quilometragem percorrida (frota inteira ou por veiculo).
-  - Volume de viagens por categoria (LEVE/PESADO).
-  - Proximas 5 manutencoes agendadas.
-  - Ranking de utilizacao (veiculo com maior quilometragem acumulada).
-  - Projecao financeira de manutencao no mes atual.
+## Funcionalidades entregues
 
-## Stack Tecnica
+- Login com autenticacao JWT.
+- CRUD completo de manutencoes (criar, listar, editar, excluir).
+- Dashboard com as metricas obrigatorias do desafio.
+- Filtro e visualizacao por tipo de dado operacional.
+- Logout e protecao de rotas no frontend.
+
+## Mapeamento dos requisitos do dashboard
+
+As 5 metricas obrigatorias estao implementadas via SQL no backend:
+
+- Total de KM percorrido: soma da quilometragem (frota ou por veiculo).
+- Volume por Categoria: quantidade de viagens por tipo de veiculo (LEVE/PESADO).
+- Cronograma de Manutencao: proximas 5 manutencoes ordenadas por data.
+- Ranking de Utilizacao: veiculo com maior quilometragem acumulada.
+- Projecao Financeira: soma dos custos estimados de manutencao no mes atual.
+
+## Stack tecnica
+
+Backend:
 
 - Java 17
 - Spring Boot 3.3.5
-- Spring MVC
-- Thymeleaf
 - Spring Data JPA
-- H2 Database (ambiente local/demo)
+- Spring Security
+- JWT (JJWT)
 - Maven
+- H2 Database (memoria)
+
+Frontend:
+
+- React (Vite)
+- React Router
+- Axios
 
 ## Arquitetura
 
-Estrutura em camadas para separacao de responsabilidades:
+Backend em camadas:
 
-- controller: roteamento web e fluxo de navegacao.
-- service: composicao de regras e agregacao de dados para a camada de apresentacao.
-- repository: acesso a dados e consultas SQL nativas.
-- domain: entidades JPA e enums de negocio.
-- templates/static: views Thymeleaf e recursos estaticos (CSS).
+- controller: endpoints REST.
+- service: regras de negocio e orquestracao.
+- repository: acesso a dados e queries SQL.
+- domain: entidades e enums.
+- service/dto: contratos de resposta da API.
 
-## Banco de Dados
+Frontend SPA:
 
-Inicializacao automatica via scripts:
+- pages: telas principais (login, dashboard, manutencoes).
+- components: navegacao e componentes reutilizaveis.
+- services: integracao HTTP com backend.
+- context: estado global de autenticacao.
+
+## Banco de dados
+
+Inicializacao automatica por scripts:
 
 - src/main/resources/schema.sql
 - src/main/resources/data.sql
 
-Observacoes:
-
-- O desafio original apresenta nomenclatura em portugues para tabelas.
-- Neste projeto, o schema foi padronizado em ingles para alinhamento com entidades JPA e melhor manutencao.
-- A carga seed preserva o cenario funcional necessario para demonstrar as metricas.
-
-## Execucao Local
-
-Prerequisitos:
-
-- Java 17
-- Maven 3.9+
-
-Comando:
-
-```bash
-cd "C:\Users\mateu\Desktop\projeto tre"
-mvn clean spring-boot:run
-```
-
-## Endpoints e Acessos
-
-- Aplicacao: http://localhost:8080
-- Dashboard: http://localhost:8080/dashboard
-- Manutencoes (CRUD): http://localhost:8080/manutencoes
-- Console H2: http://localhost:8080/h2-console
-
-Configuracao H2:
+Configuracao local (H2):
 
 - JDBC URL: jdbc:h2:mem:logitrack;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
 - User: sa
-- Password: (vazio)
+- Password: vazio
 
-## Decisoes Tecnicas Relevantes
+## Como rodar localmente
 
-- Uso de SQL nativo no dashboard para aderencia ao requisito e maior controle das consultas.
-- Uso de H2 em memoria para facilitar execucao imediata em contexto de avaliacao tecnica.
-- Filtro opcional por veiculo na quilometragem total para comparacao entre visao agregada e individual.
+Prerequisitos:
+
+- Java 17+
+- Maven 3.9+
+- Node.js 18+
+- npm
+
+1) Subir backend
+
+```bash
+cd "C:\Users\mateu\Desktop\projeto tre"
+mvn spring-boot:run
+```
+
+2) Subir frontend
+
+```bash
+cd "C:\Users\mateu\Desktop\projeto tre\frontend"
+npm install
+npm run dev
+```
+
+3) Acessar aplicacao
+
+- Frontend: http://localhost:3000
+- API: http://localhost:8080
+- H2 Console: http://localhost:8080/h2-console
+
+## Credenciais de teste
+
+- Usuario: admin
+- Senha: admin
+
+## Endpoints principais
+
+- POST /api/auth/login
+- POST /api/auth/register
+- GET /api/dashboard
+- GET /api/maintenance
+- POST /api/maintenance
+- PUT /api/maintenance/{id}
+- DELETE /api/maintenance/{id}
+- GET /api/vehicles
+
+## Decisoes tecnicas
+
+- SQL no dashboard para aderencia direta ao requisito do desafio.
+- React no frontend para melhor experiencia e separacao da UI.
+- JWT para autenticacao stateless simples e objetiva para MVP.
+- H2 em memoria para facilitar avaliacao local sem dependencias externas.
+
+## Diferenciais implementados
+
+- Frontend moderno com React.
+- Seguranca com login e autenticacao.
 
 ## Limites do MVP
 
-- Sem autenticacao/autorizacao.
-- Sem suite de testes automatizados de integracao.
-- Sem pipeline de containerizacao/deploy.
+- Sem deploy em nuvem.
+- Sem Docker.
+- Sem suite completa de testes automatizados.
 
-## Proximos Passos
+## Troubleshooting rapido
 
-- Adicionar autenticacao e autorizacao com Spring Security.
-- Cobrir consultas criticas com testes de integracao.
-- Containerizar aplicacao com Docker Compose.
-- Publicar ambiente de demonstracao em nuvem.
+Se der erro de porta 8080 ocupada:
 
-## Material de Estudo
+```powershell
+taskkill /F /IM java.exe
+```
 
-A colinha de apresentacao com racional de arquitetura e trade-offs esta em:
+Se houver varias instancias de Vite:
 
-- COLINHA_ESTUDO.md
+```powershell
+taskkill /F /IM node.exe
+```
+
+Depois suba novamente backend e frontend.
+

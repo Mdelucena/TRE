@@ -1,3 +1,7 @@
+-- Usuário de teste (senha: 123456)
+INSERT INTO users (username, email, password) VALUES
+('admin', 'admin@logitrack.com', '$2a$10$slYQmyNdGzin7olVN3p5Be7DlH.PKZbv5H8KnzzVgXXbVxzy2Qfcy');
+
 INSERT INTO vehicles (plate, model, category) VALUES
 ('ABC-1234', 'Fiat Fiorino', 'LEVE'),
 ('XYZ-9876', 'Volvo FH', 'PESADO'),

@@ -1,67 +1,76 @@
 # Colinha de estudo - LogiTrack Pro
 
-Guia rapido para revisar escolhas tecnicas, justificativas e trade-offs do projeto.
+Guia rapido para entrevista tecnica sobre o projeto.
 
-## 1) Escopo e recorte
+## 1) Escopo escolhido
 
-- Escolha: Opcao 2 do desafio (CRUD de manutencao + dashboard).
-- Motivo: entregar fluxo completo de negocio com valor visivel na interface.
-- Impacto: MVP funcional, cobrindo operacao e indicadores.
+- Opcao 2 do desafio: CRUD de manutencao + dashboard analitico.
+- Objetivo: centralizar operacao e fornecer visibilidade para decisao.
 
-## 2) Arquitetura em camadas
+## 2) O que foi entregue
 
-- Escolha: controller, service, repository, domain e view.
-- Motivo: separar responsabilidades e facilitar evolucao.
-- Impacto: manutencao mais simples e melhor organizacao do codigo.
+- Backend Spring Boot em camadas.
+- Frontend React (SPA) com React Router.
+- Login com JWT e rotas protegidas.
+- Dashboard com as 5 metricas obrigatorias via SQL.
+- CRUD completo de manutencao.
 
-## 3) Renderizacao server-side (Spring MVC + Thymeleaf)
+## 3) Arquitetura (explicacao curta)
 
-- Escolha: evitar SPA no MVP.
-- Motivo: reduzir complexidade e acelerar entrega.
-- Impacto: menos sobrecarga de frontend, com menor interatividade em tempo real.
+- Controller: expoe endpoints REST.
+- Service: concentra regras de negocio.
+- Repository: consultas SQL e acesso a dados.
+- Domain: entidades e enums.
+- DTO: contrato de resposta entre backend e frontend.
+- Frontend: pages, components, services e auth context.
 
-## 4) SQL nativo no dashboard
+## 4) Decisoes tecnicas e justificativas
 
-- Escolha: consultas nativas para as metricas obrigatorias.
-- Motivo: aderencia explicita ao requisito e controle fino das queries.
-- Impacto: consultas objetivas e performaticas para o cenario, com menor portabilidade entre bancos.
+- React no frontend: melhor experiencia e separacao clara da API.
+- JWT no backend: autenticacao stateless simples para MVP.
+- SQL no dashboard: requisito pedia extracao por SQL; uso explicito para controle das metricas.
+- H2 em memoria: avaliacao local rapida sem setup extra.
 
-## 5) DTOs para camada de apresentacao
+## 5) Metricas do dashboard (como falar)
 
-- Escolha: mapear retorno de consultas para DTOs especificos.
-- Motivo: desacoplar persistencia da view e centralizar transformacoes.
-- Impacto: mais codigo de mapeamento, porem com melhor clareza de contrato na UI.
+- Total de KM percorrido: soma de mileage por frota/veiculo.
+- Volume por categoria: viagens por tipo de veiculo.
+- Cronograma de manutencao: proximas 5 manutencoes ordenadas.
+- Ranking de utilizacao: veiculo com maior km acumulado.
+- Projecao financeira: soma de custos estimados no mes atual.
 
-## 6) H2 em memoria para ambiente local
+## 6) Seguranca (resposta pronta)
 
-- Escolha: H2 com compatibilidade PostgreSQL (MODE=PostgreSQL).
-- Motivo: subir o projeto rapidamente sem infraestrutura externa.
-- Impacto: avaliacao facil; em producao, o destino natural e PostgreSQL real.
+- Login em /api/auth/login.
+- Token JWT retornado pelo backend.
+- Token salvo no frontend e enviado no header Authorization.
+- Rotas /api/** protegidas, exceto /api/auth/**.
+- Logout limpa token e sessao local.
 
-## 7) Modelo de dominio com enums
+## 7) Problemas reais que resolvemos
 
-- Escolha: enums para status, tipo de servico e categoria.
-- Motivo: restringir valores de negocio validos.
-- Impacto: reduz erro semantico; novos valores exigem alteracao de codigo.
+- Conflito de porta 8080 ocupada por processos antigos.
+- Multiplas instancias de Vite consumindo portas diferentes.
+- CORS limitado a localhost:3000, ajustado para localhost em qualquer porta.
+- Persistencia de sessao no F5 (token e usuario reidratados).
 
-## 8) Validacao no backend
+## 8) Trade-offs do MVP
 
-- Escolha: @Valid + BindingResult nos fluxos de create/update.
-- Motivo: garantir integridade antes da persistencia.
-- Impacto: feedback de erro no formulario e menor risco de dado invalido.
+- Sem Docker e sem deploy em cloud (diferencial, nao obrigatorio).
+- Sem suite completa de testes automatizados.
+- Foco em entregar requisito funcional com boa organizacao.
 
-## 9) Robustez das consultas
+## 9) Perguntas comuns e respostas curtas
 
-- Escolha: COALESCE, LEFT JOIN e filtro opcional por vehicleId.
-- Motivo: evitar null e manter dashboard resiliente com dados incompletos.
-- Impacto: comportamento estavel mesmo com base parcial ou sem historico completo.
+Por que nao Docker?
+- Priorizamos requisitos obrigatorios e diferenciais de maior impacto funcional (React + autenticacao).
 
-## 10) Trade-offs assumidos no MVP
+Por que H2 e nao PostgreSQL?
+- H2 acelera setup da banca; estrutura esta preparada para migracao posterior.
 
-- Sem autenticacao/autorizacao.
-- Sem testes automatizados de integracao.
-- Sem esteira de deploy/container pronta.
+Como garantir manutencao do codigo?
+- Camadas bem definidas, DTOs para contratos e separacao frontend/backend.
 
-## Pitch de 60 segundos
+## 10) Pitch de 60 segundos
 
-"Priorizei um MVP funcional e de facil avaliacao: backend em Spring Boot com Thymeleaf, CRUD completo de manutencao e dashboard com 5 metricas calculadas por SQL nativo. Estruturei o projeto em camadas para manter clareza e facilitar evolucao. Usei DTOs para separar persistencia de apresentacao e H2 em memoria para execucao imediata. O foco foi entregar valor de negocio com simplicidade tecnica, deixando seguranca, testes e deploy como evolucao natural."
+"Entregamos um MVP completo para gestao de manutencao de frota com dashboard de inteligencia. O backend foi construido em Spring Boot com arquitetura em camadas e consultas SQL para as metricas exigidas. O frontend foi modernizado com React, incluindo autenticacao JWT, rotas protegidas e logout. Priorizamos valor funcional e clareza tecnica para avaliacao, mantendo o projeto pronto para evoluir com testes, Docker e deploy em uma segunda etapa." 

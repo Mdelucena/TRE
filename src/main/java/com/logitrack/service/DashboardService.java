@@ -2,7 +2,7 @@ package com.logitrack.service;
 
 import com.logitrack.repository.DashboardRepository;
 import com.logitrack.service.dto.CategoryVolume;
-import com.logitrack.service.dto.DashboardData;
+import com.logitrack.service.dto.DashboardResponseDTO;
 import com.logitrack.service.dto.MaintenanceTimelineItem;
 import com.logitrack.service.dto.TopVehicleUsage;
 import org.springframework.stereotype.Service;
@@ -23,9 +23,13 @@ public class DashboardService {
         this.dashboardRepository = dashboardRepository;
     }
 
-    public DashboardData buildDashboard(Long vehicleId) {
-        BigDecimal totalMileage = dashboardRepository.totalMileage(vehicleId);
-        List<CategoryVolume> volumes = dashboardRepository.tripVolumeByCategory()
+    public DashboardResponseDTO buildDashboard(Long vehicleId) {
+        Long totalVehicles = dashboardRepository.countTotalVehicles();
+        Long totalScheduledMaintenances = dashboardRepository.countScheduledMaintenances();
+        Long totalInProgressMaintenances = dashboardRepository.countInProgressMaintenances();
+        Long totalCompletedMaintenances = dashboardRepository.countCompletedMaintenances();
+
+        List<CategoryVolume> vehiclesByCategory = dashboardRepository.vehiclesByCategory()
                 .stream()
                 .map(row -> new CategoryVolume(String.valueOf(row[0]), ((Number) row[1]).longValue()))
                 .toList();
@@ -35,15 +39,24 @@ public class DashboardService {
                 .map(this::mapMaintenance)
                 .toList();
 
-        TopVehicleUsage topUsage = mapTopUsage(dashboardRepository.utilizationRankingTop1());
-        BigDecimal monthlyProjection = dashboardRepository.currentMonthMaintenanceProjection();
+        List<Object[]> topRows = dashboardRepository.utilizationRankingTop1();
+        List<TopVehicleUsage> topVehicleUsage = topRows.stream()
+                .map(row -> new TopVehicleUsage(
+                        ((Number) row[0]).longValue(),
+                        String.valueOf(row[1]),
+                        String.valueOf(row[2]),
+                        toBigDecimal(row[3])
+                ))
+                .toList();
 
-        return new DashboardData(
-                totalMileage,
-                volumes,
+        return new DashboardResponseDTO(
+                totalVehicles,
+                totalScheduledMaintenances,
+                totalInProgressMaintenances,
+                totalCompletedMaintenances,
+                vehiclesByCategory,
                 maintenances,
-                topUsage,
-                monthlyProjection
+                topVehicleUsage
         );
     }
 
@@ -57,28 +70,6 @@ public class DashboardService {
                 String.valueOf(row[5]),
                 String.valueOf(row[6]),
                 toBigDecimal(row[7])
-        );
-    }
-
-    private TopVehicleUsage mapTopUsage(List<Object[]> rows) {
-        if (rows == null || rows.isEmpty()) {
-            return new TopVehicleUsage(null, "-", "Sem dados", BigDecimal.ZERO);
-        }
-
-        Object[] row = rows.get(0);
-        if (row != null && row.length == 1 && row[0] instanceof Object[] nestedRow) {
-            row = nestedRow;
-        }
-
-        if (row == null || row.length < 4) {
-            return new TopVehicleUsage(null, "-", "Sem dados", BigDecimal.ZERO);
-        }
-
-        return new TopVehicleUsage(
-                ((Number) row[0]).longValue(),
-                String.valueOf(row[1]),
-                String.valueOf(row[2]),
-                toBigDecimal(row[3])
         );
     }
 

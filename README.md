@@ -149,6 +149,17 @@ npm run dev
 - Sem Docker.
 - Sem suite completa de testes automatizados.
 
+## Demonstracao
+
+Os prints da entrega estao na pasta:
+
+- DOC/prints
+
+Conteudo:
+
+- Prints das funcionalidades principais do sistema.
+- Prints do terminal com subida da aplicacao e execucao de testes.
+
 ## Troubleshooting rapido
 
 Se der erro de porta 8080 ocupada:

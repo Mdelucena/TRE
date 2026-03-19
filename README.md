@@ -36,6 +36,8 @@ Backend:
 - Spring Data JPA
 - Spring Security
 - JWT (JJWT)
+- Flyway
+- OpenAPI (SpringDoc)
 - Maven
 - H2 Database (memoria)
 
@@ -64,10 +66,11 @@ Frontend SPA:
 
 ## Banco de dados
 
-Inicializacao automatica por scripts:
+Versionamento por Flyway:
 
-- src/main/resources/schema.sql
-- src/main/resources/data.sql
+- src/main/resources/db/migration/common
+- src/main/resources/db/migration/h2
+- src/main/resources/db/migration/postgresql
 
 Configuracao local (H2):
 
@@ -84,11 +87,17 @@ Prerequisitos:
 - Node.js 18+
 - npm
 
-1) Subir backend
+1) Subir backend (dev)
 
 ```bash
 cd "C:\Users\mateu\Desktop\projeto tre"
-mvn spring-boot:run
+mvn -Pdev spring-boot:run
+```
+
+Para rodar em prod:
+
+```bash
+mvn -Pprod spring-boot:run
 ```
 
 2) Subir frontend
@@ -103,6 +112,7 @@ npm run dev
 
 - Frontend: http://localhost:3000
 - API: http://localhost:8080
+- Swagger UI: http://localhost:8080/swagger-ui.html
 - H2 Console: http://localhost:8080/h2-console
 
 ## Credenciais de teste

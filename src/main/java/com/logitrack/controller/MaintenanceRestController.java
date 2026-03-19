@@ -1,19 +1,16 @@
 package com.logitrack.controller;
 
 import com.logitrack.domain.MaintenanceSchedule;
-import com.logitrack.domain.MaintenanceStatus;
-import com.logitrack.domain.ServiceType;
 import com.logitrack.domain.Vehicle;
 import com.logitrack.repository.MaintenanceScheduleRepository;
 import com.logitrack.repository.VehicleRepository;
 import com.logitrack.service.dto.MaintenanceDTO;
+import com.logitrack.service.mapper.MaintenanceMapper;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,14 +37,14 @@ public class MaintenanceRestController {
             maintenances = maintenanceRepository.findAll();
         }
         return maintenances.stream()
-                .map(MaintenanceDTO::new)
+            .map(MaintenanceMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<MaintenanceDTO> getById(@PathVariable Long id) {
         return maintenanceRepository.findById(id)
-                .map(m -> ResponseEntity.ok(new MaintenanceDTO(m)))
+                .map(m -> ResponseEntity.ok(MaintenanceMapper.toDto(m)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -56,16 +53,10 @@ public class MaintenanceRestController {
         Vehicle vehicle = vehicleRepository.findById(maintenanceDTO.getVehicleId())
                 .orElseThrow(() -> new IllegalArgumentException("Veiculo nao encontrado"));
 
-        MaintenanceSchedule maintenance = new MaintenanceSchedule();
-        maintenance.setVehicle(vehicle);
-        maintenance.setStartDate(maintenanceDTO.getScheduledDate());
-        maintenance.setExpectedEndDate(maintenanceDTO.getScheduledDate());
-        maintenance.setServiceType(ServiceType.valueOf(maintenanceDTO.getServiceType()));
-        maintenance.setStatus(MaintenanceStatus.valueOf(maintenanceDTO.getStatus()));
-        maintenance.setEstimatedCost(BigDecimal.ZERO);
+        MaintenanceSchedule maintenance = MaintenanceMapper.fromCreateRequest(maintenanceDTO, vehicle);
 
         MaintenanceSchedule saved = maintenanceRepository.save(maintenance);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new MaintenanceDTO(saved));
+        return ResponseEntity.status(HttpStatus.CREATED).body(MaintenanceMapper.toDto(saved));
     }
 
     @PutMapping("/{id}")
@@ -79,14 +70,10 @@ public class MaintenanceRestController {
                 .orElseThrow(() -> new IllegalArgumentException("Veiculo nao encontrado"));
 
         MaintenanceSchedule maintenance = maintenanceRepository.findById(id).get();
-        maintenance.setVehicle(vehicle);
-        maintenance.setStartDate(maintenanceDTO.getScheduledDate());
-        maintenance.setExpectedEndDate(maintenanceDTO.getScheduledDate());
-        maintenance.setServiceType(ServiceType.valueOf(maintenanceDTO.getServiceType()));
-        maintenance.setStatus(MaintenanceStatus.valueOf(maintenanceDTO.getStatus()));
+        MaintenanceMapper.updateEntity(maintenance, maintenanceDTO, vehicle);
 
         MaintenanceSchedule updated = maintenanceRepository.save(maintenance);
-        return ResponseEntity.ok(new MaintenanceDTO(updated));
+        return ResponseEntity.ok(MaintenanceMapper.toDto(updated));
     }
 
     @DeleteMapping("/{id}")

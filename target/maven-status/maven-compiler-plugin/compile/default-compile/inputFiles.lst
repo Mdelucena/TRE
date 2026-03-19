@@ -1,6 +1,9 @@
+C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\config\DataInitializer.java
+C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\controller\ApiErrorResponse.java
 C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\controller\AuthRestController.java
 C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\controller\DashboardController.java
 C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\controller\DashboardRestController.java
+C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\controller\GlobalExceptionHandler.java
 C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\controller\HomeController.java
 C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\controller\MaintenanceController.java
 C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\controller\MaintenanceRestController.java
@@ -22,13 +25,14 @@ C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\security\JwtToken
 C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\security\SecurityConfig.java
 C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\service\AuthService.java
 C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\service\DashboardService.java
-C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\service\dto\AuthResponse.java
+C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\service\dto\auth\request\CadastroUsuarioRequest.java
+C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\service\dto\auth\request\CredenciaisLoginRequest.java
+C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\service\dto\auth\response\TokenResponse.java
 C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\service\dto\CategoryVolume.java
 C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\service\dto\DashboardData.java
 C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\service\dto\DashboardResponseDTO.java
-C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\service\dto\LoginRequest.java
 C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\service\dto\MaintenanceDTO.java
 C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\service\dto\MaintenanceTimelineItem.java
-C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\service\dto\RegisterRequest.java
 C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\service\dto\TopVehicleUsage.java
 C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\service\dto\VehicleDTO.java
+C:\Users\mateu\Desktop\projeto tre\src\main\java\com\logitrack\service\mapper\MaintenanceMapper.java

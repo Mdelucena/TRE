@@ -13,12 +13,16 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "maintenance_schedules")
+@Getter
+@Setter
 public class MaintenanceSchedule {
 
     @Id
@@ -44,7 +48,7 @@ public class MaintenanceSchedule {
     private ServiceType serviceType;
 
     @NotNull
-    @DecimalMin(value = "0.0", inclusive = false)
+    @DecimalMin(value = "0.0", inclusive = true)
     @Column(name = "estimated_cost", nullable = false, precision = 12, scale = 2)
     private BigDecimal estimatedCost;
 
@@ -52,60 +56,4 @@ public class MaintenanceSchedule {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private MaintenanceStatus status;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
-
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getExpectedEndDate() {
-        return expectedEndDate;
-    }
-
-    public void setExpectedEndDate(LocalDate expectedEndDate) {
-        this.expectedEndDate = expectedEndDate;
-    }
-
-    public ServiceType getServiceType() {
-        return serviceType;
-    }
-
-    public void setServiceType(ServiceType serviceType) {
-        this.serviceType = serviceType;
-    }
-
-    public BigDecimal getEstimatedCost() {
-        return estimatedCost;
-    }
-
-    public void setEstimatedCost(BigDecimal estimatedCost) {
-        this.estimatedCost = estimatedCost;
-    }
-
-    public MaintenanceStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(MaintenanceStatus status) {
-        this.status = status;
-    }
 }

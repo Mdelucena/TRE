@@ -1,5 +1,8 @@
 package com.logitrack.service.dto;
 
+import lombok.Getter;
+
+@Getter
 public class VehicleDTO {
     private Long id;
     private String plate;
@@ -13,25 +16,5 @@ public class VehicleDTO {
         this.model = model;
         this.category = category;
         this.description = plate + " - " + model;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getPlate() {
-        return plate;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public String getDescription() {
-        return description;
     }
 }

@@ -3,9 +3,9 @@ package com.logitrack.service;
 import com.logitrack.domain.User;
 import com.logitrack.repository.UserRepository;
 import com.logitrack.security.JwtTokenProvider;
-import com.logitrack.service.dto.AuthResponse;
-import com.logitrack.service.dto.LoginRequest;
-import com.logitrack.service.dto.RegisterRequest;
+import com.logitrack.service.dto.auth.request.CadastroUsuarioRequest;
+import com.logitrack.service.dto.auth.request.CredenciaisLoginRequest;
+import com.logitrack.service.dto.auth.response.TokenResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class AuthService {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    public AuthResponse login(LoginRequest loginRequest) {
+    public TokenResponse login(CredenciaisLoginRequest loginRequest) {
         User user = userRepository.findByUsername(loginRequest.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("Usuario ou senha inválidos"));
 
@@ -32,10 +32,10 @@ public class AuthService {
         }
 
         String token = jwtTokenProvider.generateToken(user.getUsername());
-        return new AuthResponse(token, user.getUsername(), user.getEmail(), user.getId());
+        return new TokenResponse(token, user.getUsername(), user.getEmail(), user.getId());
     }
 
-    public AuthResponse register(RegisterRequest registerRequest) {
+    public TokenResponse register(CadastroUsuarioRequest registerRequest) {
         if (userRepository.existsByUsername(registerRequest.getUsername())) {
             throw new IllegalArgumentException("Username já existe");
         }
@@ -52,6 +52,6 @@ public class AuthService {
 
         userRepository.save(user);
         String token = jwtTokenProvider.generateToken(user.getUsername());
-        return new AuthResponse(token, user.getUsername(), user.getEmail(), user.getId());
+        return new TokenResponse(token, user.getUsername(), user.getEmail(), user.getId());
     }
 }

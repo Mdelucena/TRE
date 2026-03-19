@@ -1,7 +1,5 @@
 package com.logitrack.service.dto;
 
-import com.logitrack.domain.MaintenanceSchedule;
-
 import java.time.LocalDate;
 
 public class MaintenanceDTO {
@@ -16,28 +14,6 @@ public class MaintenanceDTO {
     public MaintenanceDTO() {
     }
 
-    public MaintenanceDTO(MaintenanceSchedule maintenance) {
-        this.id = maintenance.getId();
-        this.vehicleId = maintenance.getVehicle().getId();
-        this.vehicleDescription = maintenance.getVehicle().getPlate() + " - " + maintenance.getVehicle().getModel();
-        this.serviceType = maintenance.getServiceType().toString();
-        this.scheduledDate = maintenance.getStartDate();
-        this.status = maintenance.getStatus().toString();
-        this.description = "";
-    }
-
-    public static MaintenanceSchedule toEntity(MaintenanceDTO dto) {
-        MaintenanceSchedule maintenance = new MaintenanceSchedule();
-        if (dto.id != null) {
-            maintenance.setId(dto.id);
-        }
-        maintenance.setStartDate(dto.scheduledDate);
-        maintenance.setExpectedEndDate(dto.scheduledDate);
-        maintenance.setEstimatedCost(java.math.BigDecimal.ZERO);
-        return maintenance;
-    }
-
-    // Getters and Setters
     public Long getId() {
         return id;
     }

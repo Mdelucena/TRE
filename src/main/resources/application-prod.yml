@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/logitrack}
+    driver-class-name: org.postgresql.Driver
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:postgres}
+  h2:
+    console:
+      enabled: false
+  flyway:
+    locations: classpath:db/migration/common,classpath:db/migration/postgresql

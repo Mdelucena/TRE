@@ -12,12 +12,16 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "trips")
+@Getter
+@Setter
 public class Trip {
 
     @Id
@@ -49,60 +53,4 @@ public class Trip {
     @DecimalMin(value = "0.0", inclusive = false)
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal mileage;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
-
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
-    }
-
-    public LocalDateTime getDepartureAt() {
-        return departureAt;
-    }
-
-    public void setDepartureAt(LocalDateTime departureAt) {
-        this.departureAt = departureAt;
-    }
-
-    public LocalDateTime getArrivalAt() {
-        return arrivalAt;
-    }
-
-    public void setArrivalAt(LocalDateTime arrivalAt) {
-        this.arrivalAt = arrivalAt;
-    }
-
-    public String getOriginCity() {
-        return originCity;
-    }
-
-    public void setOriginCity(String originCity) {
-        this.originCity = originCity;
-    }
-
-    public String getDestinationCity() {
-        return destinationCity;
-    }
-
-    public void setDestinationCity(String destinationCity) {
-        this.destinationCity = destinationCity;
-    }
-
-    public BigDecimal getMileage() {
-        return mileage;
-    }
-
-    public void setMileage(BigDecimal mileage) {
-        this.mileage = mileage;
-    }
 }

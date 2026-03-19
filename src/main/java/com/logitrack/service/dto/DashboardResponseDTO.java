@@ -1,7 +1,10 @@
 package com.logitrack.service.dto;
 
+import lombok.Getter;
+
 import java.util.List;
 
+@Getter
 public class DashboardResponseDTO {
     private Long totalVehicles;
     private Long totalScheduledMaintenances;
@@ -23,33 +26,5 @@ public class DashboardResponseDTO {
         this.vehiclesByCategory = vehiclesByCategory;
         this.maintenanceTimeline = maintenanceTimeline;
         this.topVehicleUsage = topVehicleUsage;
-    }
-
-    public Long getTotalVehicles() {
-        return totalVehicles;
-    }
-
-    public Long getTotalScheduledMaintenances() {
-        return totalScheduledMaintenances;
-    }
-
-    public Long getTotalInProgressMaintenances() {
-        return totalInProgressMaintenances;
-    }
-
-    public Long getTotalCompletedMaintenances() {
-        return totalCompletedMaintenances;
-    }
-
-    public List<CategoryVolume> getVehiclesByCategory() {
-        return vehiclesByCategory;
-    }
-
-    public List<MaintenanceTimelineItem> getMaintenanceTimeline() {
-        return maintenanceTimeline;
-    }
-
-    public List<TopVehicleUsage> getTopVehicleUsage() {
-        return topVehicleUsage;
     }
 }

@@ -1,0 +1,72 @@
+.card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-left: 4px solid;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.title {
+  font-size: 0.95rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.primary {
+  border-left-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.primary .value {
+  color: var(--primary-color);
+}
+
+.success {
+  border-left-color: var(--success-color);
+  color: var(--success-color);
+}
+
+.success .value {
+  color: var(--success-color);
+}
+
+.warning {
+  border-left-color: var(--warning-color);
+  color: var(--warning-color);
+}
+
+.warning .value {
+  color: var(--warning-color);
+}
+
+.secondary {
+  border-left-color: var(--secondary-color);
+  color: var(--secondary-color);
+}
+
+.secondary .value {
+  color: var(--secondary-color);
+}
+
+.danger {
+  border-left-color: var(--danger-color);
+  color: var(--danger-color);
+}
+
+.danger .value {
+  color: var(--danger-color);
+}

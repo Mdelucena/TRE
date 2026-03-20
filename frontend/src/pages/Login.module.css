@@ -1,0 +1,107 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.loginBox {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  padding: 3rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.loginBox h1 {
+  text-align: center;
+  color: var(--dark-bg);
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+}
+
+.subtitle {
+  text-align: center;
+  color: #999;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+.loginBox form {
+  margin: 2rem 0;
+}
+
+.loginBox .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.loginBox label {
+  font-weight: 600;
+  color: var(--dark-bg);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.loginBox input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.loginBox input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.btnLogin {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 1rem;
+}
+
+.btnLogin:hover:not(:disabled) {
+  background-color: #0052a3;
+}
+
+.btnLogin:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.footer {
+  text-align: center;
+  color: #999;
+  font-size: 0.85rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e0e0e0;
+  line-height: 1.6;
+}
+
+.footer strong {
+  color: var(--dark-bg);
+}
+
+@media (max-width: 600px) {
+  .loginBox {
+    margin: 1rem;
+    padding: 2rem;
+  }
+
+  .loginBox h1 {
+    font-size: 1.5rem;
+  }
+}

@@ -1,0 +1,50 @@
+.container {
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.container h1 {
+  font-size: 2rem;
+  color: var(--dark-bg);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.inputError {
+  border-color: var(--danger-color) !important;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.actions button {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.actions button.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.actions button.btn-primary:hover {
+  background-color: #0052a3;
+}
+
+.actions button.btn-secondary {
+  background-color: #95a5a6;
+  color: white;
+}
+
+.actions button.btn-secondary:hover {
+  background-color: #7f8c8d;
+}

@@ -1,0 +1,109 @@
+.timeline {
+  position: relative;
+  padding: 1rem 0;
+}
+
+.empty {
+  text-align: center;
+  color: #999;
+  padding: 2rem;
+}
+
+.timelineItem {
+  display: flex;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.timelineItem:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 40px;
+  bottom: -40px;
+  width: 2px;
+  background-color: #ddd;
+}
+
+.dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #ddd;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.dot.warning {
+  background-color: var(--warning-color);
+}
+
+.dot.info {
+  background-color: #3498db;
+}
+
+.dot.success {
+  background-color: var(--success-color);
+}
+
+.dot.danger {
+  background-color: var(--danger-color);
+}
+
+.content {
+  margin-left: 1rem;
+  flex-grow: 1;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.header strong {
+  color: var(--dark-bg);
+  font-size: 0.95rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+}
+
+.badge.warning {
+  background-color: var(--warning-color);
+}
+
+.badge.info {
+  background-color: #3498db;
+}
+
+.badge.success {
+  background-color: var(--success-color);
+}
+
+.badge.danger {
+  background-color: var(--danger-color);
+}
+
+.details {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.details p {
+  margin: 0.25rem 0;
+}
+
+.details small {
+  display: block;
+  color: #999;
+  margin-top: 0.25rem;
+}

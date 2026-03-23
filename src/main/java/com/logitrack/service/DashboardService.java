@@ -24,6 +24,7 @@ public class DashboardService {
     }
 
     public DashboardResponseDTO buildDashboard(Long vehicleId) {
+        BigDecimal totalMileage = dashboardRepository.totalMileage(vehicleId);
         Long totalVehicles = dashboardRepository.countTotalVehicles();
         Long totalScheduledMaintenances = dashboardRepository.countScheduledMaintenances();
         Long totalInProgressMaintenances = dashboardRepository.countInProgressMaintenances();
@@ -50,6 +51,7 @@ public class DashboardService {
                 .toList();
 
         return new DashboardResponseDTO(
+            totalMileage,
                 totalVehicles,
                 totalScheduledMaintenances,
                 totalInProgressMaintenances,

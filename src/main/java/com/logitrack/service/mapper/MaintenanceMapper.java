@@ -20,6 +20,8 @@ public final class MaintenanceMapper {
         dto.setVehicleDescription(maintenance.getVehicle().getPlate() + " - " + maintenance.getVehicle().getModel());
         dto.setServiceType(maintenance.getServiceType().toString());
         dto.setScheduledDate(maintenance.getStartDate());
+        dto.setExpectedEndDate(maintenance.getExpectedEndDate());
+        dto.setEstimatedCost(maintenance.getEstimatedCost());
         dto.setStatus(maintenance.getStatus().toString());
         dto.setDescription("");
         return dto;
@@ -29,19 +31,20 @@ public final class MaintenanceMapper {
         MaintenanceSchedule maintenance = new MaintenanceSchedule();
         maintenance.setVehicle(vehicle);
         maintenance.setStartDate(dto.getScheduledDate());
-        maintenance.setExpectedEndDate(dto.getScheduledDate());
+        maintenance.setExpectedEndDate(dto.getExpectedEndDate() != null ? dto.getExpectedEndDate() : dto.getScheduledDate());
         maintenance.setServiceType(parseServiceType(dto.getServiceType()));
         maintenance.setStatus(parseStatus(dto.getStatus()));
-        maintenance.setEstimatedCost(BigDecimal.ZERO);
+        maintenance.setEstimatedCost(dto.getEstimatedCost() != null ? dto.getEstimatedCost() : BigDecimal.ZERO);
         return maintenance;
     }
 
     public static void updateEntity(MaintenanceSchedule maintenance, MaintenanceDTO dto, Vehicle vehicle) {
         maintenance.setVehicle(vehicle);
         maintenance.setStartDate(dto.getScheduledDate());
-        maintenance.setExpectedEndDate(dto.getScheduledDate());
+        maintenance.setExpectedEndDate(dto.getExpectedEndDate() != null ? dto.getExpectedEndDate() : dto.getScheduledDate());
         maintenance.setServiceType(parseServiceType(dto.getServiceType()));
         maintenance.setStatus(parseStatus(dto.getStatus()));
+        maintenance.setEstimatedCost(dto.getEstimatedCost() != null ? dto.getEstimatedCost() : BigDecimal.ZERO);
     }
 
     private static ServiceType parseServiceType(String serviceType) {

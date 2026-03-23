@@ -2,10 +2,12 @@ package com.logitrack.service.dto;
 
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
 public class DashboardResponseDTO {
+    private BigDecimal totalMileage;
     private Long totalVehicles;
     private Long totalScheduledMaintenances;
     private Long totalInProgressMaintenances;
@@ -14,11 +16,13 @@ public class DashboardResponseDTO {
     private List<MaintenanceTimelineItem> maintenanceTimeline;
     private List<TopVehicleUsage> topVehicleUsage;
 
-    public DashboardResponseDTO(Long totalVehicles, Long totalScheduledMaintenances,
+    public DashboardResponseDTO(BigDecimal totalMileage,
+                                Long totalVehicles, Long totalScheduledMaintenances,
                                 Long totalInProgressMaintenances, Long totalCompletedMaintenances,
                                 List<CategoryVolume> vehiclesByCategory,
                                 List<MaintenanceTimelineItem> maintenanceTimeline,
                                 List<TopVehicleUsage> topVehicleUsage) {
+        this.totalMileage = totalMileage;
         this.totalVehicles = totalVehicles;
         this.totalScheduledMaintenances = totalScheduledMaintenances;
         this.totalInProgressMaintenances = totalInProgressMaintenances;

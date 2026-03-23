@@ -57,6 +57,11 @@ export default function MaintenanceList() {
     return new Date(dateString).toLocaleDateString('pt-BR')
   }
 
+  const formatCurrency = (value) => {
+    const numeric = Number(value ?? 0)
+    return numeric.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+  }
+
   if (loading) return <div className="loading">Carregando...</div>
 
   return (
@@ -97,6 +102,8 @@ export default function MaintenanceList() {
                 <th>Veículo</th>
                 <th>Serviço</th>
                 <th>Data Agendada</th>
+                <th>Finalização Prevista</th>
+                <th>Custo Estimado</th>
                 <th>Status</th>
                 <th>Ações</th>
               </tr>
@@ -107,6 +114,8 @@ export default function MaintenanceList() {
                   <td>{m.vehicleDescription || 'N/A'}</td>
                   <td>{m.serviceType}</td>
                   <td>{formatDate(m.scheduledDate)}</td>
+                  <td>{formatDate(m.expectedEndDate || m.scheduledDate)}</td>
+                  <td>{formatCurrency(m.estimatedCost)}</td>
                   <td>
                     <span className={`${styles.badge} ${styles[getStatusBadgeClass(m.status)]}`}>
                       {m.status}

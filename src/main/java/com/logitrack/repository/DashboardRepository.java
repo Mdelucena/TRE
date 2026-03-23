@@ -46,8 +46,9 @@ public interface DashboardRepository extends JpaRepository<Trip, Long> {
     BigDecimal totalMileage(@Param("vehicleId") Long vehicleId);
 
     @Query(value = """
-            SELECT v.category, COUNT(v.id)
-            FROM vehicles v
+            SELECT v.category, COUNT(t.id)
+            FROM trips t
+            JOIN vehicles v ON v.id = t.vehicle_id
             GROUP BY v.category
             """, nativeQuery = true)
     List<Object[]> vehiclesByCategory();

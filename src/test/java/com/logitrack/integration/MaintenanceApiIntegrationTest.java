@@ -34,6 +34,8 @@ class MaintenanceApiIntegrationTest {
                                                                         "vehicleId": 1,
                                                                         "serviceType": "OLEO",
                                                                         "scheduledDate": "2026-03-25",
+                                                                        "expectedEndDate": "2026-03-30",
+                                                                        "estimatedCost": 250.50,
                                                                         "status": "PENDENTE",
                                                                         "description": "troca preventiva"
                                                                 }
@@ -46,6 +48,8 @@ class MaintenanceApiIntegrationTest {
                                                                 .andExpect(status().isCreated())
                                                                 .andExpect(jsonPath("$.vehicleId").value(1))
                                                                 .andExpect(jsonPath("$.serviceType").value("OLEO"))
+                                                                .andExpect(jsonPath("$.expectedEndDate").value("2026-03-30"))
+                                                                .andExpect(jsonPath("$.estimatedCost").value(250.50))
                                                                 .andExpect(jsonPath("$.status").value("PENDENTE"));
                 }
 
@@ -58,6 +62,8 @@ class MaintenanceApiIntegrationTest {
                   "vehicleId": 999999,
                   "serviceType": "OLEO",
                   "scheduledDate": "2026-03-20",
+                                                                        "expectedEndDate": "2026-03-25",
+                                                                        "estimatedCost": 100,
                   "status": "PENDENTE",
                   "description": "troca"
                 }

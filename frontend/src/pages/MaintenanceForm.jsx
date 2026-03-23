@@ -15,6 +15,8 @@ export default function MaintenanceForm() {
     vehicleId: '',
     serviceType: 'TROCA_DE_PNEUS',
     scheduledDate: '',
+    expectedEndDate: '',
+    estimatedCost: '',
     status: 'PENDENTE',
     description: ''
   })
@@ -51,6 +53,8 @@ export default function MaintenanceForm() {
         vehicleId: response.data.vehicleId || '',
         serviceType: response.data.serviceType,
         scheduledDate: response.data.scheduledDate || '',
+        expectedEndDate: response.data.expectedEndDate || response.data.scheduledDate || '',
+        estimatedCost: response.data.estimatedCost ?? '',
         status: response.data.status,
         description: response.data.description || ''
       })
@@ -87,6 +91,18 @@ export default function MaintenanceForm() {
       newErrors.scheduledDate = 'Data é obrigatória'
     }
 
+    if (!formData.expectedEndDate) {
+      newErrors.expectedEndDate = 'Data de finalização prevista é obrigatória'
+    } else if (formData.scheduledDate && formData.expectedEndDate < formData.scheduledDate) {
+      newErrors.expectedEndDate = 'Data de finalização prevista não pode ser anterior à data agendada'
+    }
+
+    if (formData.estimatedCost === '') {
+      newErrors.estimatedCost = 'Custo estimado é obrigatório'
+    } else if (Number(formData.estimatedCost) < 0) {
+      newErrors.estimatedCost = 'Custo estimado não pode ser negativo'
+    }
+
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -103,6 +119,8 @@ export default function MaintenanceForm() {
         vehicleId: parseInt(formData.vehicleId),
         serviceType: formData.serviceType,
         scheduledDate: formData.scheduledDate,
+        expectedEndDate: formData.expectedEndDate,
+        estimatedCost: parseFloat(formData.estimatedCost),
         status: formData.status,
         description: formData.description
       }
@@ -183,6 +201,34 @@ export default function MaintenanceForm() {
               className={errors.scheduledDate ? styles.inputError : ''}
             />
             {errors.scheduledDate && <div className="error-message">{errors.scheduledDate}</div>}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="estimatedCost">Custo Estimado *</label>
+            <input
+              type="number"
+              id="estimatedCost"
+              name="estimatedCost"
+              min="0"
+              step="0.01"
+              value={formData.estimatedCost}
+              onChange={handleChange}
+              className={errors.estimatedCost ? styles.inputError : ''}
+            />
+            {errors.estimatedCost && <div className="error-message">{errors.estimatedCost}</div>}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="expectedEndDate">Data de Finalização Prevista *</label>
+            <input
+              type="date"
+              id="expectedEndDate"
+              name="expectedEndDate"
+              value={formData.expectedEndDate}
+              onChange={handleChange}
+              className={errors.expectedEndDate ? styles.inputError : ''}
+            />
+            {errors.expectedEndDate && <div className="error-message">{errors.expectedEndDate}</div>}
           </div>
 
           <div className="form-group">

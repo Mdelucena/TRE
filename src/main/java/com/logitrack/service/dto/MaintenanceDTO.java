@@ -1,5 +1,6 @@
 package com.logitrack.service.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class MaintenanceDTO {
@@ -8,6 +9,8 @@ public class MaintenanceDTO {
     private String vehicleDescription;
     private String serviceType;
     private LocalDate scheduledDate;
+    private LocalDate expectedEndDate;
+    private BigDecimal estimatedCost;
     private String status;
     private String description;
 
@@ -52,6 +55,22 @@ public class MaintenanceDTO {
 
     public void setScheduledDate(LocalDate scheduledDate) {
         this.scheduledDate = scheduledDate;
+    }
+
+    public LocalDate getExpectedEndDate() {
+        return expectedEndDate;
+    }
+
+    public void setExpectedEndDate(LocalDate expectedEndDate) {
+        this.expectedEndDate = expectedEndDate;
+    }
+
+    public BigDecimal getEstimatedCost() {
+        return estimatedCost;
+    }
+
+    public void setEstimatedCost(BigDecimal estimatedCost) {
+        this.estimatedCost = estimatedCost;
     }
 
     public String getStatus() {

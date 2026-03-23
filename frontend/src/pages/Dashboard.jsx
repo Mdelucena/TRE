@@ -32,14 +32,20 @@ export default function Dashboard() {
   if (error) return <div className="alert alert-danger">{error}</div>
   if (!data) return <div className="alert alert-warning">Nenhum dado disponível</div>
 
+  const totalMileage = Number(data.totalMileage ?? 0)
+  const formattedMileage = totalMileage.toLocaleString('pt-BR', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2
+  })
+
   return (
     <div className={styles.dashboard}>
       <h1>Dashboard</h1>
 
       <div className={styles.metrics}>
         <MetricCard
-          title="Total de Veículos"
-          value={data.totalVehicles || 0}
+          title="Total de KM Percorrido"
+          value={`${formattedMileage} km`}
           color="primary"
         />
         <MetricCard
@@ -62,7 +68,7 @@ export default function Dashboard() {
       <div className={styles.chartsSection}>
         {data.vehiclesByCategory && data.vehiclesByCategory.length > 0 && (
           <div className="card">
-            <h2>Distribuição de Veículos por Categoria</h2>
+            <h2>Volume de Viagens por Categoria</h2>
             <VehicleChart data={data.vehiclesByCategory} />
           </div>
         )}

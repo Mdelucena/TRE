@@ -5,23 +5,28 @@ export default function VehicleChart({ data = [] }) {
     return <p>Nenhum dado de categoria disponível</p>
   }
 
+  const normalizedData = data.map((item) => ({
+    category: item.category ?? item.categoryName ?? 'Sem categoria',
+    totalTrips: Number(item.totalTrips ?? item.quantity ?? 0)
+  }))
+
   // Encontra o maior valor para normalizar
-  const maxValue = Math.max(...data.map(item => item.quantity || 0))
+  const maxValue = Math.max(...normalizedData.map(item => item.totalTrips), 1)
   const colors = ['#0066cc', '#f39c12', '#27ae60', '#e74c3c', '#9b59b6', '#1abc9c']
 
   return (
     <div className={styles.chart}>
-      {data.map((item, index) => (
+      {normalizedData.map((item, index) => (
         <div key={index} className={styles.barContainer}>
           <div className={styles.barLabel}>
-            <strong>{item.categoryName}</strong>
-            <span className={styles.value}>{item.quantity}</span>
+            <strong>{item.category}</strong>
+            <span className={styles.value}>{item.totalTrips}</span>
           </div>
           <div className={styles.barTrack}>
             <div
               className={styles.bar}
               style={{
-                width: `${(item.quantity / maxValue) * 100}%`,
+                width: `${(item.totalTrips / maxValue) * 100}%`,
                 backgroundColor: colors[index % colors.length]
               }}
             />

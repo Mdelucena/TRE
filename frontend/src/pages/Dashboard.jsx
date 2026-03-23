@@ -37,6 +37,11 @@ export default function Dashboard() {
     minimumFractionDigits: 0,
     maximumFractionDigits: 2
   })
+  const currentMonthProjection = Number(data.currentMonthMaintenanceProjection ?? 0)
+  const formattedProjection = currentMonthProjection.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  })
 
   return (
     <div className={styles.dashboard}>
@@ -62,6 +67,11 @@ export default function Dashboard() {
           title="Manutenções Concluídas"
           value={data.totalCompletedMaintenances || 0}
           color="success"
+        />
+        <MetricCard
+          title="Projeção Financeira (Mês)"
+          value={formattedProjection}
+          color="primary"
         />
       </div>
 
